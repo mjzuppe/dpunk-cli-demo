@@ -1,4 +1,12 @@
 {
+  "bin": {
+    "dpunk": "./index.js"
+  },
+  "author": {
+    "name": "Mark Zuppe"
+  },
+  "name": "dpunk",
+  "version": "0.1.0",
   "type": "module",
   "dependencies": {
     "chalk": "^5.3.0",
