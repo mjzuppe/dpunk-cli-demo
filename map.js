@@ -24,7 +24,9 @@ const list = async () => {
     {Name: "svelte-portfolio", Status: chalk.greenBright('Running'), Region: "us-west-2", URL: "https://somedeveloperisgreat.com"},
     {Name: "dpunk-launch", Status: chalk.yellowBright('Staged'), Region: "us-west-2", URL: ""}
    ])))
-}
+};
+
+const view = () => {};
 
 const listSolo = chalkTable([{Name: "dpunk-launch", Status: chalk.yellowBright('Staged'), Region: "us-west-2", URL: ""}]);
 
@@ -35,9 +37,19 @@ const actions = {
     create: async () => {
         banner();
         const build_config = await inquire(sequences.create_method);
-        if (build_config['create-method'] === 'Auto Architect') await inquire(sequences.create_auto);
+        if (build_config['create-method'] === 'Auto Architect') {
+            await inquire(sequences.create_auto_start);
+            const spinner1 = new createSpinner('Scanning repo to configure deployment...').start();
+            await sleep(7000);
+            spinner1.success({text: 'Scanning complete', color: 'green'});
+            await inquire(sequences.create_auto_end);
+            const spinner2 = new createSpinner('Designing project architecture...').start();
+            await sleep(7000);
+            spinner2.success({text: 'Project complete', color: 'green'});
+            console.log(listSolo);
+        }
         else await inquire(sequences.create_manual);
-        console.log(listSolo)
+
     },
     delete: () => {},
     list: () => list(),
@@ -47,6 +59,7 @@ const actions = {
         spinner.success({text: 'Deployment complete', color: 'green'});
         console.log(listUpdated);
     },
+    view: () => view()
 };
 
 const map = {

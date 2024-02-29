@@ -1,4 +1,7 @@
 /// Prompts for inquirer
+import chalk from "chalk";
+const description = (text) => `\t${chalk.gray(text)}`;
+
 const sequences = {
     create_method: [
         {
@@ -10,10 +13,10 @@ const sequences = {
             type: 'list',
             message: 'How do you want to create a workload?',
             name: 'create-method',
-            choices: [{name: 'Auto Architect'}, {name: 'Manual Architect'}],
+            choices: [{name: `Auto Architect`, description: "we do the hard work"}, {name: 'Manual Architect'}],
         },
     ],
-    create_auto: [
+    create_auto_start: [
         {
             type: 'list',
             message: 'Choose a repository',
@@ -26,6 +29,8 @@ const sequences = {
             name: 'repository',
             choices: [{name: 'main'}, {name: 'preview'}, {name: 'test-staging'}],
         },
+    ],
+    create_auto_end: [
         {
             type: 'checkbox',
             message: 'Configure options',
@@ -62,8 +67,15 @@ const sequences = {
             type: 'list',
             message: 'Configure EC2 instance',
             name: 'config-ec2',
-            choices: ['Family', 'Size', 'OS', 'Storage'].map(opt => ({name: opt})),
+            choices: ['Type', 'Size', 'OS', 'Storage'].map(opt => ({name: opt})),
+        },
+        {
+            type: 'list',
+            message: 'Choose a type',
+            name: 'type-type',
+            choices: [{value: `General Purpose ${description('a balance of compute, memory and networking resources.')}`}, {value: `Compute Optimized ${description('high-performance processors for modeling, gaming, and compute intensive applications.')}`}, {value: `Memory Optimized ${description('fast performance for workloads that process large data sets in memory for caching, Hadoop, or realtime analytics.')}`}, {value: `Storage Optimized ${description('high, sequential read and write access on local storage for transactional dbs, search, or datawarehouses.')}`}],
         }
+
 
     ],
 };
